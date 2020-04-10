@@ -14,8 +14,8 @@ CREATE TABLE boards (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
-    owner_id INT UNSIGNED,
+    owner_id INT UNSIGNED NOT NULL,
     created_at DATETIME,
-    updated_at DATETIME
-    FOREIGN KEY (owner_id) REFERENCES users(id);
-)
+    updated_at DATETIME,
+    FOREIGN KEY (owner_id) REFERENCES users(id)
+);
