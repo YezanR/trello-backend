@@ -2,6 +2,7 @@ package com.yezan.trello.service;
 
 import com.yezan.trello.dto.user.UserCreateRequest;
 import com.yezan.trello.entity.User;
+import com.yezan.trello.exception.UserAlreadySignedUpException;
 import com.yezan.trello.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,13 @@ public class UserServiceImpl implements UserService {
     }
 
     public User signUp(UserCreateRequest request) {
+        String email = request.getEmail();
+        if (this.isSignedUp(email)) {
+            throw new UserAlreadySignedUpException(
+                    "User with email '" + email + "' has already signed up"
+            );
+        }
+
         String password = this.passwordEncoder.encode(request.getPassword());
         User user = new User();
         user.setFirstName(request.getFirstName());
@@ -26,5 +34,9 @@ public class UserServiceImpl implements UserService {
         user.setPassword(password);
         user.setUsername(request.getUsername());
         return this.userRepository.save(user);
+    }
+
+    public boolean isSignedUp(String email) {
+        return this.userRepository.findByEmail(email) != null;
     }
 }

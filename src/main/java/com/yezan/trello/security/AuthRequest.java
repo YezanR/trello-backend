@@ -1,15 +1,15 @@
 package com.yezan.trello.security;
 
-public class JWTRequest {
+public class AuthRequest {
     private String username;
     private String password;
 
     //need default constructor for JSON Parsing
-    public JWTRequest() {
+    public AuthRequest() {
 
     }
 
-    public JWTRequest(String username, String password) {
+    public AuthRequest(String username, String password) {
         this.setUsername(username);
         this.setPassword(password);
     }

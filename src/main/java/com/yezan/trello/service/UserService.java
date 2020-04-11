@@ -5,4 +5,5 @@ import com.yezan.trello.entity.User;
 
 public interface UserService {
     User signUp(UserCreateRequest user);
+    boolean isSignedUp(String emailOrUsername);
 }

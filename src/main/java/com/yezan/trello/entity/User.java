@@ -1,5 +1,7 @@
 package com.yezan.trello.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,8 @@ public class User {
     private String lastName;
     private String username;
     private String email;
+
+    @JsonIgnore
     private String password;
 
     public int getId() {
