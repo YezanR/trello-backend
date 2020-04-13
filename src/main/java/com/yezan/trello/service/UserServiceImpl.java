@@ -4,6 +4,7 @@ import com.yezan.trello.dto.user.UserCreateRequest;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.exception.UserAlreadySignedUpException;
 import com.yezan.trello.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,10 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder
+    ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -38,5 +42,14 @@ public class UserServiceImpl implements UserService {
 
     public boolean isSignedUp(String email) {
         return this.userRepository.findByEmail(email) != null;
+    }
+
+    public User findByUsername(String username) {
+        User user = this.userRepository.findByUsername(username);
+        if (user == null) {
+            throw new UsernameNotFoundException(username);
+        }
+
+        return user;
     }
 }

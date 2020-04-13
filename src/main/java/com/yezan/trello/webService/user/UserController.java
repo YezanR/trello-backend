@@ -16,13 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
+import java.security.Principal;
 
 @RestController
 @RequestMapping("api")
@@ -37,7 +36,8 @@ public class UserController {
             UserService userService,
             AuthenticationManager authenticator,
             UserDetailsService userDetailsService,
-            JWTUtil jwtUtil) {
+            JWTUtil jwtUtil
+    ) {
         this.userService = userService;
         this.authenticator = authenticator;
         this.userDetailsService = userDetailsService;
@@ -72,5 +72,21 @@ public class UserController {
         catch (BadCredentialsException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, e.getMessage());
         }
+    }
+
+    @GetMapping("/signedInUser")
+    public ResponseEntity<User> getSignedInUser(Principal principal) {
+        String username = principal.getName();
+        if (username != null) {
+            try {
+                User user = this.userService.findByUsername(username);
+                return ResponseEntity.ok(user);
+            }
+            catch (UsernameNotFoundException e) {
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+            }
+        }
+
+        return null;
     }
 }
