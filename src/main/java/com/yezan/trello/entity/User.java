@@ -3,6 +3,7 @@ package com.yezan.trello.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -19,6 +20,9 @@ public class User {
 
     @JsonIgnore
     private String password;
+
+    @OneToMany(mappedBy = "owner")
+    private List<Board> boards;
 
     public int getId() {
         return id;

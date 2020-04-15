@@ -3,6 +3,7 @@ package com.yezan.trello.webService.user;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.dto.user.UserCreateRequest;
 import com.yezan.trello.exception.UserAlreadySignedUpException;
+import com.yezan.trello.security.Auth;
 import com.yezan.trello.security.AuthRequest;
 import com.yezan.trello.security.JWTResponse;
 import com.yezan.trello.security.JWTUtil;
@@ -31,17 +32,20 @@ public class UserController {
     final AuthenticationManager authenticator;
     final UserDetailsService userDetailsService;
     final JWTUtil jwtUtil;
+    final Auth auth;
 
     public UserController(
             UserService userService,
             AuthenticationManager authenticator,
             UserDetailsService userDetailsService,
-            JWTUtil jwtUtil
+            JWTUtil jwtUtil,
+            Auth auth
     ) {
         this.userService = userService;
         this.authenticator = authenticator;
         this.userDetailsService = userDetailsService;
         this.jwtUtil = jwtUtil;
+        this.auth = auth;
     }
 
     @PostMapping("signUp")
@@ -75,18 +79,8 @@ public class UserController {
     }
 
     @GetMapping("/signedInUser")
-    public ResponseEntity<User> getSignedInUser(Principal principal) {
-        String username = principal.getName();
-        if (username != null) {
-            try {
-                User user = this.userService.findByUsername(username);
-                return ResponseEntity.ok(user);
-            }
-            catch (UsernameNotFoundException e) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-            }
-        }
-
-        return null;
+    public ResponseEntity<User> getSignedInUser() {
+        User user = this.auth.getUser();
+        return ResponseEntity.ok(user);
     }
 }
