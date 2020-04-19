@@ -30,8 +30,21 @@ public class BoardController {
         return this.boardService.findAllByOwner(currentUser);
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<Board> findById(@PathVariable int id) {
+        try {
+            Board board = this.boardService.findById(id);
+            return ResponseEntity.ok(board);
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Board> create(@RequestBody Board board) {
+        User owner = this.auth.getUser();
+        board.setOwner(owner);
         Board createdBoard = this.boardService.create(board);
         return new ResponseEntity<>(createdBoard, HttpStatus.CREATED);
     }
@@ -47,6 +60,7 @@ public class BoardController {
         }
     }
 
+    @DeleteMapping("{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable int id) {
         try {
             this.boardService.delete(id);

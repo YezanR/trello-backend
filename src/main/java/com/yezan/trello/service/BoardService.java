@@ -10,4 +10,5 @@ public interface BoardService {
     Board create(Board board);
     Board update(int id, Board board);
     void delete(int id);
+    Board findById(int id);
 }

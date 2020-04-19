@@ -21,9 +21,6 @@ public class User {
     @JsonIgnore
     private String password;
 
-    @OneToMany(mappedBy = "owner")
-    private List<Board> boards;
-
     public int getId() {
         return id;
     }

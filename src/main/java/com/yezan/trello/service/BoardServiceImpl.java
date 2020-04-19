@@ -36,7 +36,10 @@ public class BoardServiceImpl implements BoardService {
     public Board update(int id, Board board) {
         Optional<Board> searchResult = this.boardRepository.findById(id);
         if (searchResult.isPresent()) {
-            return this.boardRepository.save(board);
+            Board existingBoard = searchResult.get();
+            existingBoard.setTitle(board.getTitle());
+            existingBoard.setDescription(board.getDescription());
+            return this.boardRepository.save(existingBoard);
         }
         else {
             throw new EntityNotFoundException();
@@ -46,5 +49,16 @@ public class BoardServiceImpl implements BoardService {
     @Override
     public void delete(int id) {
         this.boardRepository.deleteById(id);
+    }
+
+    @Override
+    public Board findById(int id) {
+        Optional<Board> searchResult = this.boardRepository.findById(id);
+        if (searchResult.isPresent()) {
+            return searchResult.get();
+        }
+        else {
+            throw new EntityNotFoundException();
+        }
     }
 }

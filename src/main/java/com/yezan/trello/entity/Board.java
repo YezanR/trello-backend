@@ -1,6 +1,8 @@
 package com.yezan.trello.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "boards")
@@ -9,10 +11,14 @@ public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotEmpty
     private String title;
+
     private String description;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
     private User owner;
 
     public int getId() {
