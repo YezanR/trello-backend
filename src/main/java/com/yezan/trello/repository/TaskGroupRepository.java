@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface TaskGroupRepository extends CrudRepository<TaskGroup, Integer> {
     List<TaskGroup> findAllByBoardId(int boardId);
+    TaskGroup getOneById(int id);
 }

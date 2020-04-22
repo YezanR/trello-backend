@@ -12,8 +12,7 @@ public class TaskGroup {
     private int id;
     private String title;
 
-    @OneToMany
-    @JoinColumn(name = "id")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
     private List<Task> tasks;
 
     private int boardId;

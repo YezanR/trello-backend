@@ -11,7 +11,10 @@ public class Task {
     private int id;
     private String title;
     private String description;
-    private int groupId;
+
+    @ManyToOne
+    @JoinColumn(name = "group_id")
+    private TaskGroup group;
 
     public int getId() {
         return id;
@@ -37,11 +40,11 @@ public class Task {
         this.description = description;
     }
 
-    public int getGroupId() {
-        return groupId;
+    public TaskGroup getGroup() {
+        return group;
     }
 
-    public void setGroupId(int groupId) {
-        this.groupId = groupId;
+    public void setGroup(TaskGroup group) {
+        this.group = group;
     }
 }
