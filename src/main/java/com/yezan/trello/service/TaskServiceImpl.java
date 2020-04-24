@@ -32,4 +32,16 @@ public class TaskServiceImpl implements TaskService {
         newTask.setGroup(task.getGroup());
         return this.taskRepository.save(newTask);
     }
+
+    public void delete(int id) {
+        this.taskRepository.deleteById(id);
+    }
+
+    @Override
+    public Task update(int id, Task task) {
+        Task existingTask = this.taskRepository.getOneById(id);
+        existingTask.setTitle(task.getTitle());
+        existingTask.setDescription(task.getDescription());
+        return this.taskRepository.save(existingTask);
+    }
 }

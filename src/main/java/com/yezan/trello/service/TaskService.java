@@ -8,4 +8,6 @@ import java.util.List;
 public interface TaskService {
     List<TaskGroup> findAllGrouped(int boardId);
     Task create(Task task);
+    void delete(int id);
+    Task update(int id, Task task);
 }
