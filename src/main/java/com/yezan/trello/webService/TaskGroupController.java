@@ -1,5 +1,6 @@
 package com.yezan.trello.webService;
 
+import com.yezan.trello.entity.Task;
 import com.yezan.trello.entity.TaskGroup;
 import com.yezan.trello.service.TaskGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,16 @@ public class TaskGroupController {
         try {
             this.service.delete(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("{groupId}/tasks")
+    public ResponseEntity<Task> addTask(@PathVariable int groupId, @RequestBody Task task) {
+        try {
+            Task newTask = this.service.addTask(groupId, task);
+            return new ResponseEntity<>(newTask, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

@@ -1,21 +1,19 @@
 package com.yezan.trello.service;
 
+import com.yezan.trello.entity.Task;
 import com.yezan.trello.entity.TaskGroup;
 import com.yezan.trello.repository.TaskGroupRepository;
-import com.yezan.trello.repository.TaskRepository;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Service
 public class TaskGroupServiceImpl implements TaskGroupService {
 
     private final TaskGroupRepository taskGroupRepository;
-    private final TaskRepository taskRepository;
+    private final TaskService taskService;
 
-    public TaskGroupServiceImpl(TaskGroupRepository repository, TaskRepository taskRepository) {
+    public TaskGroupServiceImpl(TaskGroupRepository repository, TaskService taskService) {
         this.taskGroupRepository = repository;
-        this.taskRepository = taskRepository;
+        this.taskService = taskService;
     }
 
     @Override
@@ -33,5 +31,12 @@ public class TaskGroupServiceImpl implements TaskGroupService {
     @Override
     public void delete(int id) {
         this.taskGroupRepository.deleteById(id);
+    }
+
+    @Override
+    public Task addTask(int groupId, Task task) {
+        TaskGroup group = this.taskGroupRepository.getOneById(groupId);
+        task.setGroup(group);
+        return this.taskService.create(task);
     }
 }

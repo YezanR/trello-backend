@@ -1,5 +1,7 @@
 package com.yezan.trello.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,8 +14,9 @@ public class Task {
     private String title;
     private String description;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
+    @JsonIgnore
     private TaskGroup group;
 
     public int getId() {
@@ -41,7 +44,7 @@ public class Task {
     }
 
     public TaskGroup getGroup() {
-        return group;
+        return this.group;
     }
 
     public void setGroup(TaskGroup group) {
