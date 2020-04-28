@@ -50,4 +50,8 @@ public class Task {
     public void setGroup(TaskGroup group) {
         this.group = group;
     }
+
+    public int getGroupId() {
+        return this.group.getId();
+    }
 }
