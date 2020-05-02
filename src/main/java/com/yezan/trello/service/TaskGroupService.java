@@ -8,4 +8,5 @@ public interface TaskGroupService {
     TaskGroup update(int id, TaskGroup taskGroup);
     void delete(int id);
     Task addTask(int groupId, Task task);
+    Task moveTask(int taskId, int toGroupId);
 }

@@ -2,6 +2,7 @@ package com.yezan.trello.webService;
 
 import com.yezan.trello.entity.Task;
 import com.yezan.trello.entity.TaskGroup;
+import com.yezan.trello.service.TaskGroupService;
 import com.yezan.trello.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,14 @@ import java.util.List;
 public class TaskController {
 
     private final TaskService taskService;
+    private final TaskGroupService taskGroupService;
 
-    public TaskController(TaskService taskService) {
+    public TaskController(
+            TaskService taskService,
+            TaskGroupService taskGroupService
+    ) {
         this.taskService = taskService;
+        this.taskGroupService = taskGroupService;
     }
 
     @GetMapping("boards/{boardId}/tasks")
@@ -42,6 +48,26 @@ public class TaskController {
             Task updatedTask = this.taskService.update(id, task);
             return ResponseEntity.ok(updatedTask);
         } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("tasks/{taskId}/move/{toGroupId}")
+    public ResponseEntity<Task> moveTask(@PathVariable int taskId, @PathVariable int toGroupId) {
+        try {
+            Task updatedTask = this.taskGroupService.moveTask(taskId, toGroupId);
+            return ResponseEntity.ok(updatedTask);
+        } catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("tasks/{taskId}/updateRank/{newRank}")
+    public ResponseEntity<Task> updateRank(@PathVariable int taskId, @PathVariable int newRank) {
+        try {
+            Task updatedTask = this.taskService.updateRank(taskId, newRank);
+            return ResponseEntity.ok(updatedTask);
+        } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
     }

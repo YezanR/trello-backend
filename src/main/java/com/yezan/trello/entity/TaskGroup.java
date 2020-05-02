@@ -1,6 +1,7 @@
 package com.yezan.trello.entity;
 
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -34,6 +35,7 @@ public class TaskGroup {
     }
 
     public List<Task> getTasks() {
+        tasks.sort(Collections.reverseOrder());
         return tasks;
     }
 

@@ -45,7 +45,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task update(int id, Task task) {
-        Task existingTask = this.taskRepository.getOneById(id);
+        Task existingTask = this.getById(id);
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
         return this.taskRepository.save(existingTask);
@@ -56,5 +56,31 @@ public class TaskServiceImpl implements TaskService {
         Optional<Integer> result = this.taskRepository.findMaxRankByGroupId(groupId);
         int maxRank = result.orElse(0);
         return maxRank + 1;
+    }
+
+    @Override
+    public Task getById(int id) {
+        return this.taskRepository.getOneById(id);
+    }
+
+    @Override
+    public Task moveToGroup(int taskId, TaskGroup group) {
+        Task task = this.getById(taskId);
+        task.setGroup(group);
+        return this.taskRepository.save(task);
+    }
+
+    @Override
+    public Task updateRank(int taskId, int newRank) {
+        Task task = this.getById(taskId);
+
+        Optional<Task> possibleTaskWithRank = taskRepository.findByRankAndGroup(newRank, task.getGroup());
+        possibleTaskWithRank.ifPresent((theTask) -> {
+            theTask.setRank(task.getRank());
+            this.taskRepository.save(theTask);
+        });
+
+        task.setRank(newRank);
+        return this.taskRepository.save(task);
     }
 }
