@@ -13,6 +13,7 @@ public class Task {
     private int id;
     private String title;
     private String description;
+    private int rank;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "group_id")
@@ -53,5 +54,13 @@ public class Task {
 
     public int getGroupId() {
         return this.group.getId();
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }

@@ -10,4 +10,5 @@ public interface TaskService {
     Task create(Task task);
     void delete(int id);
     Task update(int id, Task task);
+    int getNextAvailableRank(int groupId);
 }

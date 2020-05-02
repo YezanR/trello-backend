@@ -3,6 +3,7 @@ package com.yezan.trello.service;
 import com.yezan.trello.entity.Task;
 import com.yezan.trello.entity.TaskGroup;
 import com.yezan.trello.repository.TaskGroupRepository;
+import com.yezan.trello.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,7 +12,11 @@ public class TaskGroupServiceImpl implements TaskGroupService {
     private final TaskGroupRepository taskGroupRepository;
     private final TaskService taskService;
 
-    public TaskGroupServiceImpl(TaskGroupRepository repository, TaskService taskService) {
+    public TaskGroupServiceImpl(
+            TaskGroupRepository repository,
+            TaskService taskService,
+            TaskRepository taskRepository
+    ) {
         this.taskGroupRepository = repository;
         this.taskService = taskService;
     }

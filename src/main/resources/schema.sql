@@ -33,6 +33,7 @@ CREATE TABLE tasks (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     title TEXT NOT NULL,
     description TEXT,
+    rank INT,
     group_id INT UNSIGNED NOT NULL,
     created_at DATETIME,
     updated_at DATETIME,

@@ -7,6 +7,7 @@ import com.yezan.trello.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -14,7 +15,10 @@ public class TaskServiceImpl implements TaskService {
     private final TaskGroupRepository taskGroupRepository;
     private final TaskRepository taskRepository;
 
-    public TaskServiceImpl(TaskGroupRepository taskGroupRepository, TaskRepository taskRepository) {
+    public TaskServiceImpl(
+            TaskGroupRepository taskGroupRepository,
+            TaskRepository taskRepository
+    ) {
         this.taskGroupRepository = taskGroupRepository;
         this.taskRepository = taskRepository;
     }
@@ -30,6 +34,8 @@ public class TaskServiceImpl implements TaskService {
         newTask.setTitle(task.getTitle());
         newTask.setDescription(task.getDescription());
         newTask.setGroup(task.getGroup());
+        int nextRank = this.getNextAvailableRank(task.getGroupId());
+        newTask.setRank(nextRank);
         return this.taskRepository.save(newTask);
     }
 
@@ -43,5 +49,12 @@ public class TaskServiceImpl implements TaskService {
         existingTask.setTitle(task.getTitle());
         existingTask.setDescription(task.getDescription());
         return this.taskRepository.save(existingTask);
+    }
+
+    @Override
+    public int getNextAvailableRank(int groupId) {
+        Optional<Integer> result = this.taskRepository.findMaxRankByGroupId(groupId);
+        int maxRank = result.orElse(0);
+        return maxRank + 1;
     }
 }
