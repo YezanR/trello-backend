@@ -6,6 +6,7 @@ import com.yezan.trello.repository.TaskGroupRepository;
 import com.yezan.trello.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -71,16 +72,17 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public Task updateRank(int taskId, int newRank) {
-        Task task = this.getById(taskId);
+    public void reorder(Integer[] ids) {
+        List<Task> tasks = this.taskRepository.findByIdIn(ids);
 
-        Optional<Task> possibleTaskWithRank = taskRepository.findByRankAndGroup(newRank, task.getGroup());
-        possibleTaskWithRank.ifPresent((theTask) -> {
-            theTask.setRank(task.getRank());
-            this.taskRepository.save(theTask);
-        });
+        List<Integer> idList = Arrays.asList(ids);
+        for (Task task: tasks) {
+            int index = idList.indexOf(task.getId());
+            if (index > -1) {
+                task.setRank(index + 1);
+            }
+        }
 
-        task.setRank(newRank);
-        return this.taskRepository.save(task);
+        this.taskRepository.saveAll(tasks);
     }
 }

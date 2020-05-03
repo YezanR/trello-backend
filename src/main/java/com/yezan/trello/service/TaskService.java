@@ -13,5 +13,5 @@ public interface TaskService {
     Task update(int id, Task task);
     int getNextAvailableRank(int groupId);
     Task moveToGroup(int taskId, TaskGroup group);
-    Task updateRank(int taskId, int newRank);
+    void reorder(Integer[] tasks);
 }

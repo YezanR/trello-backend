@@ -62,11 +62,12 @@ public class TaskController {
         }
     }
 
-    @PutMapping("tasks/{taskId}/updateRank/{newRank}")
-    public ResponseEntity<Task> updateRank(@PathVariable int taskId, @PathVariable int newRank) {
+    @PutMapping("tasks/ranks")
+    public ResponseEntity<HttpStatus> reorder(@RequestBody Integer[] ids) {
         try {
-            Task updatedTask = this.taskService.updateRank(taskId, newRank);
-            return ResponseEntity.ok(updatedTask);
+            System.out.println("Hello");
+            this.taskService.reorder(ids);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }

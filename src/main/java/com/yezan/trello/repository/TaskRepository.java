@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -14,4 +15,5 @@ public interface TaskRepository extends CrudRepository<Task, Integer> {
     @Query("select max(t.rank) from Task t where t.group.id = ?1")
     Optional<Integer> findMaxRankByGroupId(int groupId);
     Optional<Task> findByRankAndGroup(int rank, TaskGroup group);
+    List<Task> findByIdIn(Integer[] ids);
 }
