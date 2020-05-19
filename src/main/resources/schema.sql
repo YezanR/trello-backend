@@ -39,3 +39,9 @@ CREATE TABLE tasks (
     updated_at DATETIME,
     FOREIGN KEY (group_id) REFERENCES task_groups(id)
 );
+
+CREATE TABLE shares (
+    board_id INT UNSIGNED,
+    user_id INT UNSIGNED,
+    PRIMARY KEY (board_id, user_id)
+);

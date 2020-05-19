@@ -1,8 +1,11 @@
 package com.yezan.trello.service;
 
 import com.yezan.trello.entity.Board;
+import com.yezan.trello.entity.Share;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.repository.BoardRepository;
+import com.yezan.trello.repository.SharingRepository;
+import com.yezan.trello.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -14,9 +17,16 @@ import java.util.Optional;
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
+    private final SharingRepository sharingRepository;
+    private final UserRepository userRepository;
 
-    public BoardServiceImpl(BoardRepository boardRepository) {
+    public BoardServiceImpl(
+            BoardRepository boardRepository,
+            SharingRepository sharingRepository,
+            UserRepository userRepository) {
         this.boardRepository = boardRepository;
+        this.sharingRepository = sharingRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -53,12 +63,19 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board findById(int id) {
-        Optional<Board> searchResult = this.boardRepository.findById(id);
-        if (searchResult.isPresent()) {
-            return searchResult.get();
-        }
-        else {
-            throw new EntityNotFoundException();
-        }
+        return this.boardRepository.getOneById(id);
+    }
+
+    @Override
+    public Share share(Board board, User user) {
+        Share share = new Share(board, user);
+        return this.sharingRepository.save(share);
+    }
+
+    @Override
+    public Share share(int boardId, int userId) {
+        Board board = this.findById(boardId);
+        User user = this.userRepository.getOneById(userId);
+        return this.share(board, user);
     }
 }

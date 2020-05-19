@@ -65,7 +65,7 @@ public class TaskController {
     @PutMapping("tasks/ranks")
     public ResponseEntity<HttpStatus> reorder(@RequestBody Integer[] ids) {
         try {
-            System.out.println("Hello");
+            //System.out.println("Hello");
             this.taskService.reorder(ids);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (EntityNotFoundException e) {

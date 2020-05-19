@@ -1,6 +1,9 @@
 package com.yezan.trello.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,11 +14,14 @@ public class TaskGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @NotEmpty
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "group")
-    private List<Task> tasks;
+    private List<Task> tasks = new ArrayList<>();
 
+    @NotNull
     private int boardId;
 
     public int getId() {

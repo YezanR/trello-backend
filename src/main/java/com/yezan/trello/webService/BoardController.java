@@ -1,6 +1,7 @@
 package com.yezan.trello.webService;
 
 import com.yezan.trello.entity.Board;
+import com.yezan.trello.entity.Share;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.security.Auth;
 import com.yezan.trello.service.BoardService;
@@ -64,6 +65,17 @@ public class BoardController {
     public ResponseEntity<HttpStatus> delete(@PathVariable int id) {
         try {
             this.boardService.delete(id);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        catch (EntityNotFoundException e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("{id}/share/{userId}")
+    public ResponseEntity<HttpStatus> share(@PathVariable int id, @PathVariable int userId) {
+        try {
+            this.boardService.share(id, userId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (EntityNotFoundException e) {

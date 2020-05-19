@@ -1,6 +1,7 @@
 package com.yezan.trello.service;
 
 import com.yezan.trello.entity.Board;
+import com.yezan.trello.entity.Share;
 import com.yezan.trello.entity.User;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface BoardService {
     Board update(int id, Board board);
     void delete(int id);
     Board findById(int id);
+    Share share(Board board, User user);
+    Share share(int boardId, int userId);
 }
