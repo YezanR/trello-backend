@@ -3,26 +3,25 @@ package com.yezan.trello.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "shares")
-public class Share {
-
+@Table(name = "share_requests")
+public class ShareRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private Board board;
 
-    public Share() {
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
+    public ShareRequest() {
 
     }
 
-    public Share(Board board, User user) {
-        this.setUser(user);
-        this.setBoard(board);
+    public ShareRequest(Board board, User user) {
+        setBoard(board);
+        setUser(user);
     }
 
     public int getId() {
@@ -33,19 +32,19 @@ public class Share {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public Board getBoard() {
         return board;
     }
 
     public void setBoard(Board board) {
         this.board = board;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

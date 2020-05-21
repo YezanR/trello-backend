@@ -1,10 +1,10 @@
-package com.yezan.trello.webService;
+package com.yezan.trello.webService.board;
 
 import com.yezan.trello.entity.Board;
-import com.yezan.trello.entity.Share;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.security.Auth;
 import com.yezan.trello.service.BoardService;
+import com.yezan.trello.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,9 @@ public class BoardController {
     private final BoardService boardService;
     private final Auth auth;
 
-    public BoardController(BoardService boardService, Auth auth) {
+    public BoardController(
+            BoardService boardService,
+            Auth auth) {
         this.boardService = boardService;
         this.auth = auth;
     }
@@ -65,17 +67,6 @@ public class BoardController {
     public ResponseEntity<HttpStatus> delete(@PathVariable int id) {
         try {
             this.boardService.delete(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        catch (EntityNotFoundException e) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-        }
-    }
-
-    @PostMapping("{id}/share/{userId}")
-    public ResponseEntity<HttpStatus> share(@PathVariable int id, @PathVariable int userId) {
-        try {
-            this.boardService.share(id, userId);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (EntityNotFoundException e) {

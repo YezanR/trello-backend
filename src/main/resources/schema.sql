@@ -41,7 +41,17 @@ CREATE TABLE tasks (
 );
 
 CREATE TABLE shares (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     board_id INT UNSIGNED,
     user_id INT UNSIGNED,
-    PRIMARY KEY (board_id, user_id)
+    FOREIGN KEY (board_id) REFERENCES boards(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE share_requests (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    board_id INT UNSIGNED,
+    user_id INT UNSIGNED,
+    FOREIGN KEY (board_id) REFERENCES boards(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
