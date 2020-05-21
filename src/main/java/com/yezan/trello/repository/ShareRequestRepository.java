@@ -8,6 +8,5 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.Optional;
 
 public interface ShareRequestRepository extends CrudRepository<ShareRequest, Integer> {
-    ShareRequest getOneById(int id);
     Optional<ShareRequest> findByBoardAndUser(Board board, User withUser);
 }

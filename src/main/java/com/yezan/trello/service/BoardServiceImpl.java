@@ -6,7 +6,6 @@ import com.yezan.trello.repository.BoardRepository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,10 +21,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public List<Board> findAllByOwner(User owner) {
-        List<Board> boards = new ArrayList<>();
-        Iterable<Board> results = this.boardRepository.findAllByOwner(owner);
-        results.forEach(boards::add);
-        return boards;
+        return this.boardRepository.findAllByOwner(owner);
     }
 
     @Override
@@ -35,16 +31,10 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board update(int id, Board board) {
-        Optional<Board> searchResult = this.boardRepository.findById(id);
-        if (searchResult.isPresent()) {
-            Board existingBoard = searchResult.get();
-            existingBoard.setTitle(board.getTitle());
-            existingBoard.setDescription(board.getDescription());
-            return this.boardRepository.save(existingBoard);
-        }
-        else {
-            throw new EntityNotFoundException();
-        }
+        Board existingBoard = this.findById(id);
+        existingBoard.setTitle(board.getTitle());
+        existingBoard.setDescription(board.getDescription());
+        return this.boardRepository.save(existingBoard);
     }
 
     @Override
@@ -54,6 +44,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public Board findById(int id) {
-        return this.boardRepository.getOneById(id);
+        Optional<Board> searchResult = this.boardRepository.findById(id);
+        return searchResult.orElseThrow(EntityNotFoundException::new);
     }
 }

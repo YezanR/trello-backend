@@ -9,6 +9,7 @@ import com.yezan.trello.repository.ShareRequestRepository;
 import com.yezan.trello.service.exception.BoardShareException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
@@ -73,7 +74,10 @@ public class BoardShareServiceImpl implements BoardShareService {
     @Override
     @Transactional
     public Share accept(int shareRequestId) {
-        ShareRequest request = this.shareRequestRepository.getOneById(shareRequestId);
+        Optional<ShareRequest> searchRequest = this.shareRequestRepository.findById(shareRequestId);
+        ShareRequest request = searchRequest.orElseThrow(
+                () -> new EntityNotFoundException("Share request not found")
+        );
         Share share = this.share(request.getBoard(), request.getUser());
         this.shareRequestRepository.delete(request);
         return share;

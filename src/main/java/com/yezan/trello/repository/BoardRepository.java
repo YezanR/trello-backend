@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends CrudRepository<Board, Integer> {
     List<Board> findAllByOwner(User owner);
-    Board getOneById(int id);
 }

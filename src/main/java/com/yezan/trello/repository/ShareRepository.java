@@ -9,5 +9,4 @@ import java.util.Optional;
 
 public interface ShareRepository extends CrudRepository<Share, Integer> {
     Optional<Share> findByBoardAndUser(Board board, User withUser);
-
 }
