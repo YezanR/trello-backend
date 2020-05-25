@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -54,6 +56,7 @@ public class BoardShareServiceImpl implements BoardShareService {
         }
 
         ShareRequest request = new ShareRequest(board, withUser);
+        request.setCreatedAt(LocalDateTime.now());
         return this.shareRequestRepository.save(request);
     }
 
@@ -81,5 +84,10 @@ public class BoardShareServiceImpl implements BoardShareService {
         Share share = this.share(request.getBoard(), request.getUser());
         this.shareRequestRepository.delete(request);
         return share;
+    }
+
+    @Override
+    public List<ShareRequest> findAllRequests(User forUser) {
+        return this.shareRequestRepository.findAllByUser(forUser);
     }
 }

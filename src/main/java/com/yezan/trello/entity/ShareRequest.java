@@ -1,6 +1,7 @@
 package com.yezan.trello.entity;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "share_requests")
@@ -9,11 +10,14 @@ public class ShareRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    private String message;
+    private LocalDateTime createdAt;
 
     public ShareRequest() {
 
@@ -46,5 +50,21 @@ public class ShareRequest {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

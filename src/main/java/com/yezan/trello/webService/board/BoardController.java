@@ -4,7 +4,6 @@ import com.yezan.trello.entity.Board;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.security.Auth;
 import com.yezan.trello.service.BoardService;
-import com.yezan.trello.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

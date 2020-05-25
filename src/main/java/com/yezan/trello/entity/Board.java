@@ -3,6 +3,7 @@ package com.yezan.trello.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "boards")
@@ -20,6 +21,14 @@ public class Board {
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
     private User owner;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "shares",
+            joinColumns = @JoinColumn(name = "board_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<User> members;
 
     public int getId() {
         return id;
@@ -51,5 +60,13 @@ public class Board {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
     }
 }

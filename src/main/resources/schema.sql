@@ -52,6 +52,8 @@ CREATE TABLE share_requests (
     id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     board_id INT UNSIGNED,
     user_id INT UNSIGNED,
+    message TEXT,
+    created_at DATETIME,
     FOREIGN KEY (board_id) REFERENCES boards(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );

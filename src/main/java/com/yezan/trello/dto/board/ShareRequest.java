@@ -1,8 +1,16 @@
 package com.yezan.trello.dto.board;
 
+import javax.validation.constraints.NotNull;
+
 public class ShareRequest {
+
+    @NotNull
     private String username;
+
+    @NotNull
     private int boardId;
+
+    private String message;
 
     public String getUsername() {
         return username;
@@ -18,5 +26,13 @@ public class ShareRequest {
 
     public void setBoardId(int boardId) {
         this.boardId = boardId;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

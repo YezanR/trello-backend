@@ -3,7 +3,7 @@ package com.yezan.trello.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -20,6 +20,10 @@ public class User {
 
     @JsonIgnore
     private String password;
+
+    @ManyToMany(mappedBy = "members")
+    @JsonIgnore
+    private Set<Board> joinedBoards;
 
     public int getId() {
         return id;
@@ -67,6 +71,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Set<Board> getJoinedBoards() {
+        return joinedBoards;
+    }
+
+    public void setJoinedBoards(Set<Board> joinedBoards) {
+        this.joinedBoards = joinedBoards;
     }
 
     @Override

@@ -5,6 +5,8 @@ import com.yezan.trello.entity.Share;
 import com.yezan.trello.entity.ShareRequest;
 import com.yezan.trello.entity.User;
 
+import java.util.List;
+
 public interface BoardShareService {
     Share share(Board board, User user);
     Share share(int boardId, User withUser);
@@ -12,4 +14,5 @@ public interface BoardShareService {
     Share accept(int shareRequestId);
     boolean isRequestedWith(Board board, User withUser);
     boolean isSharedWith(Board board, User withUser);
+    List<ShareRequest> findAllRequests(User user);
 }
