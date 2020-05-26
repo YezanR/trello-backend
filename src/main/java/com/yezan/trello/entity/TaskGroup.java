@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "task_groups")
-public class TaskGroup {
+public class TaskGroup extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

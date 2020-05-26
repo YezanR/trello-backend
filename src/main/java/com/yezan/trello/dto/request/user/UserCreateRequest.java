@@ -1,4 +1,4 @@
-package com.yezan.trello.dto.user;
+package com.yezan.trello.dto.request.user;
 
 import com.yezan.trello.security.PasswordMatchable;
 import com.yezan.trello.validator.PasswordMatches;

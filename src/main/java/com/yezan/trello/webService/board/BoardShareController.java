@@ -1,6 +1,6 @@
 package com.yezan.trello.webService.board;
 
-import com.yezan.trello.dto.board.ShareRequest;
+import com.yezan.trello.dto.request.ShareRequest;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.security.Auth;
 import com.yezan.trello.service.BoardShareService;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -59,7 +59,12 @@ public class BoardShareController {
     }
 
     @GetMapping
-    public List<com.yezan.trello.entity.ShareRequest> findAllRequests() {
-        return this.boardShareService.findAllRequests(auth.getUser());
+    public List<com.yezan.trello.dto.response.ShareRequest> findAllRequests() {
+        List<com.yezan.trello.entity.ShareRequest> requests = this.boardShareService.findAllRequests(auth.getUser());
+        List<com.yezan.trello.dto.response.ShareRequest> requestResponses = new ArrayList<>();
+        requests.forEach((request) -> {
+                requestResponses.add(com.yezan.trello.dto.response.ShareRequest.fromEntity(request));
+            });
+        return requestResponses;
     }
 }

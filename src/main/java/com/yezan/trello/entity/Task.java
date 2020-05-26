@@ -6,7 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "tasks")
-public class Task implements Comparable<Task> {
+public class Task extends BaseEntity implements Comparable<Task> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

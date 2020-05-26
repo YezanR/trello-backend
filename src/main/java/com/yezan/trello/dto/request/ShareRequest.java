@@ -1,4 +1,4 @@
-package com.yezan.trello.dto.board;
+package com.yezan.trello.dto.request;
 
 import javax.validation.constraints.NotNull;
 

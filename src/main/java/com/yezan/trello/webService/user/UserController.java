@@ -1,7 +1,7 @@
 package com.yezan.trello.webService.user;
 
 import com.yezan.trello.entity.User;
-import com.yezan.trello.dto.user.UserCreateRequest;
+import com.yezan.trello.dto.request.user.UserCreateRequest;
 import com.yezan.trello.exception.UserAlreadySignedUpException;
 import com.yezan.trello.security.Auth;
 import com.yezan.trello.security.AuthRequest;
@@ -17,12 +17,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.security.Principal;
 
 @RestController
 @RequestMapping("api")

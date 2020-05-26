@@ -7,8 +7,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "users")
-@DiscriminatorColumn(name="role", discriminatorType = DiscriminatorType.INTEGER)
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,6 +1,6 @@
 package com.yezan.trello.service;
 
-import com.yezan.trello.dto.user.UserCreateRequest;
+import com.yezan.trello.dto.request.user.UserCreateRequest;
 import com.yezan.trello.entity.User;
 
 public interface UserService {
