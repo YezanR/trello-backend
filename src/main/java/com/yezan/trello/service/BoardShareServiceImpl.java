@@ -7,6 +7,7 @@ import com.yezan.trello.entity.User;
 import com.yezan.trello.repository.ShareRepository;
 import com.yezan.trello.repository.ShareRequestRepository;
 import com.yezan.trello.service.exception.BoardShareException;
+import com.yezan.trello.service.exception.UnauthorizedBoardShareException;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -32,12 +33,15 @@ public class BoardShareServiceImpl implements BoardShareService {
     }
 
     @Override
-    public Share share(Board board, User user) {
-        if (isSharedWith(board, user)) {
+    public Share share(Board board, User withUser) {
+        if (isSharedWith(board, withUser)) {
             throw new BoardShareException("Board already shared");
         }
+        if (board.getOwner().equals(withUser)) {
+            throw new BoardShareException("Owner shouldn't share a board with himself!");
+        }
 
-        Share share = new Share(board, user);
+        Share share = new Share(board, withUser);
         return this.shareRepository.save(share);
     }
 
@@ -48,11 +52,18 @@ public class BoardShareServiceImpl implements BoardShareService {
     }
 
     @Override
-    public ShareRequest request(int boardId, User withUser) {
+    public ShareRequest request(int boardId, User withUser, User requester) {
         Board board = this.boardService.findById(boardId);
 
         if (isRequestedWith(board, withUser) || isSharedWith(board, withUser)) {
             throw new BoardShareException("Board already shared or a request is pending");
+        }
+        if (board.getOwner().equals(withUser)) {
+            throw new BoardShareException("Owner shouldn't share a board with himself!");
+        }
+        if (!board.getOwner().equals(requester)) {
+            throw new UnauthorizedBoardShareException(
+                    "Only board owner is allowed to share their board");
         }
 
         ShareRequest request = new ShareRequest(board, withUser);
@@ -76,11 +87,16 @@ public class BoardShareServiceImpl implements BoardShareService {
 
     @Override
     @Transactional
-    public Share accept(int shareRequestId) {
+    public Share accept(int shareRequestId, User acceptor) {
         Optional<ShareRequest> searchRequest = this.shareRequestRepository.findById(shareRequestId);
         ShareRequest request = searchRequest.orElseThrow(
                 () -> new EntityNotFoundException("Share request not found")
         );
+
+        if (!acceptor.equals(request.getUser())) {
+            throw new UnauthorizedBoardShareException("Only concerned user is allowed to accept a share request");
+        }
+
         Share share = this.share(request.getBoard(), request.getUser());
         this.shareRequestRepository.delete(request);
         return share;

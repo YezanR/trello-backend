@@ -31,10 +31,10 @@ public class BoardShareController {
 
     public BoardShareController(
             UserService userService,
-            BoardShareService boardService,
+            BoardShareService boardShareService,
             Auth auth) {
         this.userService = userService;
-        this.boardShareService = boardService;
+        this.boardShareService = boardShareService;
         this.auth = auth;
     }
 
@@ -42,7 +42,7 @@ public class BoardShareController {
     public ResponseEntity<HttpStatus> request(@RequestBody com.yezan.trello.dto.request.ShareRequest request) {
         try {
             User withUser = this.userService.findByUsername(request.getUsername());
-            this.boardShareService.request(request.getBoardId(), withUser);
+            this.boardShareService.request(request.getBoardId(), withUser, auth.getUser());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (EntityNotFoundException e) {
@@ -56,11 +56,14 @@ public class BoardShareController {
     @PostMapping("{shareId}/accept")
     public ResponseEntity<HttpStatus> accept(@PathVariable int shareId) {
         try {
-            this.boardShareService.accept(shareId);
+            this.boardShareService.accept(shareId, auth.getUser());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         catch (EntityNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+        }
+        catch (BoardShareException e) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, e.getMessage());
         }
     }
 
