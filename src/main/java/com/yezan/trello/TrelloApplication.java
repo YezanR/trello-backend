@@ -1,5 +1,6 @@
 package com.yezan.trello;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -22,5 +23,10 @@ public class TrelloApplication {
 					.allowedMethods("GET", "POST", "DELETE", "PUT");
 			}
 		};
+	}
+
+	@Bean
+	public ModelMapper modelMapper() {
+		return new ModelMapper();
 	}
 }
