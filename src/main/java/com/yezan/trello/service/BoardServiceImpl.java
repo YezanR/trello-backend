@@ -3,6 +3,7 @@ package com.yezan.trello.service;
 import com.yezan.trello.entity.Board;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.repository.BoardRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;

@@ -32,6 +32,12 @@ public class BoardController {
         return this.boardService.findAllByOwner(currentUser);
     }
 
+    @GetMapping("joined")
+    public List<Board> findAllJoined() {
+        User currentUser = this.auth.getUser();
+        return currentUser.getJoinedBoards();
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Board> findById(@PathVariable int id) {
         try {

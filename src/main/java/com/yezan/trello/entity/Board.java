@@ -3,7 +3,7 @@ package com.yezan.trello.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "boards")
@@ -28,7 +28,7 @@ public class Board extends BaseEntity {
             joinColumns = @JoinColumn(name = "board_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id")
     )
-    private Set<User> members;
+    private List<User> members;
 
     public int getId() {
         return id;
@@ -62,11 +62,11 @@ public class Board extends BaseEntity {
         this.owner = owner;
     }
 
-    public Set<User> getMembers() {
+    public List<User> getMembers() {
         return members;
     }
 
-    public void setMembers(Set<User> members) {
+    public void setMembers(List<User> members) {
         this.members = members;
     }
 }

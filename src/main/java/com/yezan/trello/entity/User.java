@@ -3,7 +3,7 @@ package com.yezan.trello.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +22,7 @@ public class User extends BaseEntity {
 
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
-    private Set<Board> joinedBoards;
+    private List<Board> joinedBoards;
 
     public int getId() {
         return id;
@@ -72,11 +72,11 @@ public class User extends BaseEntity {
         this.username = username;
     }
 
-    public Set<Board> getJoinedBoards() {
+    public List<Board> getJoinedBoards() {
         return joinedBoards;
     }
 
-    public void setJoinedBoards(Set<Board> joinedBoards) {
+    public void setJoinedBoards(List<Board> joinedBoards) {
         this.joinedBoards = joinedBoards;
     }
 
