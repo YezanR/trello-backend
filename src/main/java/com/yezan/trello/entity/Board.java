@@ -30,6 +30,14 @@ public class Board extends BaseEntity {
     )
     private List<User> members;
 
+    public Board() {
+
+    }
+
+    public Board(String title) {
+        setTitle(title);
+    }
+
     public int getId() {
         return id;
     }
@@ -69,4 +77,6 @@ public class Board extends BaseEntity {
     public void setMembers(List<User> members) {
         this.members = members;
     }
+
+
 }
