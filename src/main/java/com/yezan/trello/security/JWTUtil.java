@@ -3,7 +3,8 @@ package com.yezan.trello.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import java.util.Date;
@@ -12,17 +13,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
+@PropertySource("classpath:security.properties")
+@ConfigurationProperties("security.jwt")
 public class JWTUtil {
-    @Value("${security.jwt.secret}")
     private String secret;
-
-    @Value("${security.jwt.expirationTime}")
     private long expirationTime;
-
-    @Value("${security.jwt.headerString}")
     private String headerString;
-
-    @Value("${security.jwt.tokenPrefix}")
     private String tokenPrefix;
 
     public String getUsernameFromToken(String token) {
@@ -87,5 +83,21 @@ public class JWTUtil {
 
     public String getTokenPrefix() {
         return tokenPrefix;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
+    }
+
+    public void setExpirationTime(long expirationTime) {
+        this.expirationTime = expirationTime;
+    }
+
+    public void setHeaderString(String headerString) {
+        this.headerString = headerString;
+    }
+
+    public void setTokenPrefix(String tokenPrefix) {
+        this.tokenPrefix = tokenPrefix;
     }
 }
