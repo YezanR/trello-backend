@@ -1,9 +1,14 @@
 package com.yezan.trello.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -23,6 +28,15 @@ public class User extends BaseEntity {
     @ManyToMany(mappedBy = "members")
     @JsonIgnore
     private List<Board> joinedBoards;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_privilege",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "privilege_id")
+    )
+    private Set<Privilege> privileges;
 
     public int getId() {
         return id;
@@ -78,6 +92,25 @@ public class User extends BaseEntity {
 
     public void setJoinedBoards(List<Board> joinedBoards) {
         this.joinedBoards = joinedBoards;
+    }
+
+    public Set<Privilege> getPrivileges() {
+        return privileges;
+    }
+
+    public void setPrivileges(Set<Privilege> privileges) {
+        this.privileges = privileges;
+    }
+
+    @JsonIgnore
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<SimpleGrantedAuthority> authorities = new HashSet<>();
+
+        getPrivileges().forEach(
+                privilege -> authorities.add(new SimpleGrantedAuthority(privilege.getName()))
+        );
+
+        return authorities;
     }
 
     @Override

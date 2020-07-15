@@ -15,4 +15,5 @@ public interface BoardShareService {
     boolean isRequestedWith(Board board, User withUser);
     boolean isSharedWith(Board board, User withUser);
     List<ShareRequest> findAllRequests(User user);
+    boolean isMember(User user, int boardId);
 }

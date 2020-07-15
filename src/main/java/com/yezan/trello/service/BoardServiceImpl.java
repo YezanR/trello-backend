@@ -3,7 +3,7 @@ package com.yezan.trello.service;
 import com.yezan.trello.entity.Board;
 import com.yezan.trello.entity.User;
 import com.yezan.trello.repository.BoardRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -39,6 +39,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @PreAuthorize("hasAuthority('DELETE_BOARD')")
     public void delete(int id) {
         this.boardRepository.deleteById(id);
     }

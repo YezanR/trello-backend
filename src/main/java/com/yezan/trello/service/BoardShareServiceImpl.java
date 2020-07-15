@@ -106,4 +106,10 @@ public class BoardShareServiceImpl implements BoardShareService {
     public List<ShareRequest> findAllRequests(User forUser) {
         return this.shareRequestRepository.findAllByUser(forUser);
     }
+
+    @Override
+    public boolean isMember(User user, int boardId) {
+        Board board = this.boardService.findById(boardId);
+        return this.isSharedWith(board, user) || board.getOwner().equals(user);
+    }
 }

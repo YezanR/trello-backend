@@ -4,6 +4,7 @@ import com.yezan.trello.entity.Task;
 import com.yezan.trello.entity.TaskGroup;
 import com.yezan.trello.repository.TaskGroupRepository;
 import com.yezan.trello.repository.TaskRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -25,6 +26,7 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    @PreAuthorize("isBoardMember(#boardId)")
     public List<TaskGroup> findAllGrouped(int boardId) {
         return this.taskGroupRepository.findAllByBoardId(boardId);
     }

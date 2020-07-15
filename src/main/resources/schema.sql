@@ -57,3 +57,16 @@ CREATE TABLE share_requests (
     FOREIGN KEY (board_id) REFERENCES boards(id),
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+CREATE TABLE privileges (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE user_privilege (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    privilege_id INT UNSIGNED NOT NULL,
+    FOREIGN KEY (privilege_id) REFERENCES privileges(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
